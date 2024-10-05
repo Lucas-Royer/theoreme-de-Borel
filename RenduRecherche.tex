@@ -1,0 +1,763 @@
+\documentclass[12pt,a4paper]{amsart}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{stmaryrd}
+\usepackage{yfonts}
+
+\newtheorem{thm}{\bf Th\'eor\`eme}
+ \newtheorem{lem}[thm]{\bf Lemme}
+ \newtheorem{prop}[thm]{\bf Proposition}
+ \newtheorem{defn}[thm]{\bf D\'efinition}
+ \newtheorem{axi}[thm]{\bf Axiome}
+ \newtheorem{cor}[thm]{\bf Corollaire}
+ \newtheorem{rem}[thm]{Remarque}
+ \newtheorem{ex}[thm]{Exemple}
+
+\begin{document}
+\author{Royer Lucas}
+\title{Autour du théorème de Borel}
+\maketitle
+
+\section{Introduction}
+
+\subsection{Historique rapide}
+
+Le théorème de Borel qui nous intéressera a été prouvé par Émile Borel en 1895  dans sa thèse de doctorat \cite{Borel 1}. Il semble néanmoins que Guiseppe Peano avait déjà démontré ce résultat en 1884 dans des notes non publiées \cite{Peano}. 
+
+Dans ce rapport nous allons établir ce résultat de façon rigoureuse puis nous étudierons les objets du théorème à savoir les séries formelles $\mathbb{R}[[X]]$, les fonctions $C^{\infty}$, ainsi que les applications et morphismes que l'on peut établir entre ces deux algèbres. L'énoncé est le suivant : 
+
+\begin{thm}[Borel]\rm
+Soit U un intervalle ouvert de $\mathbb{R}$ contenant 0. \'Etant donnée n'importe quelle série formelle 
+$$g= \sum_{k=0}^{+\infty} a_{k}x^{k},$$
+il existe une fonction $f \in C^{\infty}(U)$ avec $\hat{f}=g$, où $\hat{f}$ est le développement en série de Taylor de f en 0. $\newline$
+\end{thm}
+
+Ce théorème présente une importance tant pratique ( nous allons l'utiliser tout au long du présent rapport), que conceptuelle. En effet  certaines séries formelles sont divergentes, et il est donc étonnant que l'on puisse les écrire à partir de fonctions lisses.  Cela met en exergue la grande différence entre être analytique et être $C^{\infty}$. Cela permet également d'illustrer la différence entre les fonctions de $\mathbb{R}$ et celles de $\mathbb{C}$ puisque les fonctions holomorphes sont analytiques. 
+
+L'idée de la preuve va être de forcer la convergence en utilisant des fonctions "plateaux", et en contrôlant chacun des termes pour assurer une convergence uniforme des dérivées afin d'appliquer les théorèmes classiques sur les séries de fonctions. 
+%\textcolor{blue}{Ici il faudrait un petit paragraphe qui explique les tenants et aboutissants du théorème:
+%\begin{itemize}
+%\item si $g$ était convergente, il suffit de prendre sa somme;
+%\item il y a des séries divergentes;
+%\item Il y en a même des ``naturelles'' (les solutions de l'équation différentielle $x^2y'=y-x$);
+%\item le principe de preuve consiste forcer la convergence en transformant par morceaux la somme 
+%en une somme finie, avec de plus en plus de terme à mesure qu'on approche $0$;
+%\item pour ça il nous faut des fonctions en créneau $C^{\infty}$; c'est le lemme \ref{};
+%\item ... et de bonnes estimées de chacune de leurs dérivées pour pouvoir appliquer un théorème d'interversion somme dérivation;
+%\item Le théorème se réinterprète par le fait que le morphisme de Tayor (on verra que c'est un morphisme -- lemme \ref{}) est surjectif.
+%\end{itemize}}
+
+\section{Quelques lemmes d'analyse}
+
+Prouvons tout d'abord quelques lemmes : $\newline$
+
+\begin{lem}[Prolongement des dérivées]\label{lem:prolongement}\rm Soit $f$ de classe $C^{1}$ sur $]0,a[$, on suppose que $f'$ a une limite en $0$ notons la $l$, alors $f$ se prolonge en une fonction de classe $C^{1}$ sur $[0,a[$.
+\end{lem}
+\begin{proof}
+Soit $x\in ]0,a[$. $f$ est continue sur $[0,x]$ et dérivable sur $]0,x[$. On peut donc appliquer le théorème des  accroissements finis, et il existe $c_{x}\in ]0,x[$ tel que : 
+
+$$\dfrac{f(x)-f(0)}{x}=f'(c_{x}).$$
+Maintenant si $x\rightarrow 0$, alors $c_{x}\rightarrow 0$ et donc $f'(c_{x}) \rightarrow l$ ce qui conclut la preuve. 
+\end{proof}
+
+\begin{lem}\rm Il existe une fonction $\alpha \in C^{\infty}(\mathbb{R})$ (fonction lisse), à valeurs réelles, et qui possède les propriétés suivantes : $\alpha(x)\geq 0$ partout, $\alpha(x)=1 $ pour $|x|\leq \frac{1}{2}$ et $\alpha(x)=0 $ pour $|x|\geq 1$.
+\end{lem}
+
+\begin{proof}
+Soit $ f $ défini de la manière suivante : $f(x)=0$ si $|x|\geq 1$ et $f(x)=e^{\frac{1}{x^{2}-1}}$ sinon.
+Montrons que f est une fonction $C^{\infty}(\mathbb{R})$ :
+
+ Pour $|x|<1$ $f$ est $C^{\infty}$ comme une composition de fonctions $C^{\infty}$ sur cet intervalle.
+ 
+  De plus pour $|x|>1$ la fonction \textbf{0} est également $C^{\infty}$.
+   Il reste donc à montrer que $f$ est $C^{\infty}$ en 1 et en -1. Pour cela on utilise le lemme \ref{lem:prolongement}. 
+   
+   Sur l'intervalle $[0,1[$ on a que $f'(x) = \dfrac{-2x}{(x^{2}-1)^{2})} e^{\frac{1}{x^{2}-1}}$, de plus 
+$\lim\limits_{x \rightarrow 1^{-}} f'(x)=0$ par croissance comparée. 
+
+On peut donc conclure par le lemme 2 que $f$ est $C^{1}(\mathbb{R})$ ( on applique le même argument en -1 en prenant cette fois la limite à droite).
+ On réitère l'argument : on a $f^{(n)}(x) = \dfrac{P(x)}{Q(x)} f(x)$ avec P,Q des polynômes. Encore une fois, concluons par croissance comparée en prenant la limite à gauche en 1 et à droite en -1. On a donc bien que $f$ est une fonction $C^{\infty}(\mathbb{R})$. 
+
+Considérons maintenant $g(x)$ une primitive de $f$ égale à 0 pour $x\leq-1$, comme $f$ est positive, $g(x)>0$ pour $x>-1$, et elle est constante pour $x\geq 1$. Notons $\lambda$ cette constante. Si l'on regarde la fonction $h(x)= \frac{1}{\lambda} g(4x+3)$ elle vaut 0 pour $x<-1$ et 1 pour $x>\frac{1}{2}$. Si l'on prend maintenant $\alpha(x)= h(x)h(-x)$ nous avons la fonction cherchée.
+\end{proof}
+
+\begin{lem} Soit $I=[-1,1]$, pour $f \in C^{m}(I)$,on pose
+
+ $||f||_{m}=sup_{x\in I}(|f(x)|,..., |f^{(m)}(x)|)$. Alors $C^{\infty}(I)$ est complet pour la métrique induite par toutes les normes $||.||_{m}$. 
+\end{lem}
+\begin{proof}
+\textbf{•} $||.||_{m}$ est une norme sur $C^{\infty}(I)$ : \\
+
+Séparation : Soit $f\in C^{\infty}(I)$, si $||f||_{m} =0$ on a $sup_{x\in I}(|f(x)|,..., |f^{(m)}(x)|)=0$, en particulier  $sup_{x\in I}(|f(x)|=0$ ce qui implique $f(x)=0$. \\
+
+Homogénéité : Soit $\lambda \in \mathbb{R}$ on a alors : 
+$$||\lambda f||_{m}$$
+$$=sup_{x\in I}(|\lambda f(x)|,..., |\lambda f^{(m)}(x)|)$$
+$$=sup_{x\in I}(|\lambda| |f(x)|,..., |\lambda| |f^{(m)}(x)|)$$
+$$=|\lambda| sup_{x\in I}(|f(x)|,..., |f^{(m)}(x)|)$$
+$$=|\lambda| ||f||_{m}$$\\
+
+Inégalité triangulaire : Soit $f,g \in C^{\infty}(I)$ on a alors : 
+$$ ||f+g||_{m}$$
+$$=sup_{x\in I}(|(f+g)(x)|,..., | (f+g)^{(m)}(x)|)$$
+$$=sup_{x\in I}(|f(x)+g(x)|,..., | f^{m}(x)+g^{(m)}(x)|)$$
+$$\leq sup_{x\in I}(|f(x)|+|g(x)|,..., | f^{m}(x)|+|g^{(m)}(x)|)$$
+$$\leq ||f||_{m}+ ||g||_{m}$$
+
+\textbf{•} $(C^{m}(I),||.||_{m})$ est complet : \\
+
+Soit $f_{n} \in C^{m}(I)^{\mathbb{N}}$ de Cauchy i.e : 
+
+$$ \forall \epsilon >0;  \exists n \in \mathbb{N};  \forall p,q \geq n;  ||f_{q}-f_{p}|| < \epsilon$$
+
+En particulier $\forall x \in I$ et pour $n\in \llbracket 0,m  \rrbracket$ on a  $|f^{(n)}_{q}(x)-f^{(n)}_{p}(x)|<\epsilon$
+
+Or pour x fixé, $(f_{k}^{(n)}(x))_{k\in \mathbb{N}}$ est une suite réelle dont on vient de montrer que c'est une suite de de Cauchy ce qui implique puisque que  $\mathbb{R}$ est complet qu'elle converge. On vient donc de démontrer que les $ (f_{k}^{(n)})_{k\in \mathbb{N}}$ convergent simplement. Notons $ ^{m}f $ la limite simple de la suite$(f_{k}^{(m)})_{k\in \mathbb{N}}$, et montrons que la convergence est uniforme.\\ 
+
+Soit $\epsilon >0$, on a $(f_{k}^{(m)})_{k\in \mathbb{N}}$ est une suite de Cauchy puisqu'elle converge, donc $\exists n \in \mathbb{N}$ tel que $\forall p, q\geq n $, $ ||f_{q}-f_{p}|| < \frac{\epsilon}{2}$  en particulier on a $sup_{x\in I}(|f^{(m)}_{q}(x)-f^{(m)}_{p}(x)|< \frac{\epsilon}{2}$, Par passage à la limite nous obtenons $sup_{x\in I}(|f^{(m)}_{n}(x)- {}^{m}f(x)|\leq \frac{\epsilon}{2} < \epsilon$ ce qui est équivalent à la convergence uniforme. On peut maintenant appliquer le théorème de dérivabilité des suites de fonctions qui implique que la limite de $(f_{n})$ est une fonction dans $C^{m}(I)$, et donc la complétude.\\
+
+\textbf{•} Enfin $C^{\infty}(I)$ est complet pour la topologie engendrée par toute les normes $||.||_{n}$, en effet une suite de fonctions $ f_{n} \in C^{\infty}(I)^{\mathbb{N}}$  converge vers une fonction $ f \in C^{\infty}$ si et seulement si pour tout k $ f_{n}^{(k)}$ converge vers $f^{(k)}$ uniformément ce qui est bien le cas pour cette topologie.\\
+\end{proof}
+
+\begin{lem} Pour $\epsilon>0 $ posons $\alpha_{\epsilon}(x)= \alpha(\frac{x}{\epsilon})$. Alors, lorsque $ \epsilon \rightarrow 0$, $||\alpha_{\epsilon} x^{m+1}||_{m} \rightarrow 0$. 
+\end{lem}
+
+\begin{proof}
+
+On se place tout d'abord sur l'intervalle $[-\epsilon, \epsilon]$, en effet si $|x|>\epsilon$ on a $|\frac{x}{\epsilon}|>1$ et donc $\alpha_{\epsilon}$ est nul. Considérons maintenant $\alpha_{\epsilon}^{(k)}(x)$ avec $0\leq k\leq m$, sur notre intervalle de travail c'est une composition de fonctions dérivables et en particulier continues, sur un compact et en conséquence bornées. On a donc : 
+
+$$|\alpha_{\epsilon}^{(k)}(x)|= \left|\dfrac{1}{\epsilon^{k}} \alpha^{(k)}\left(\dfrac{x}{\epsilon}\right)\right|\leq \dfrac{C_{k}}{\epsilon^{k}}$$
+Maintenant calculons $(\alpha_{\epsilon} x^{m+1})^{(n)}$ avec $0\leq n \leq m$, par la formule de Leibniz on a : 
+
+$$|(\alpha_{\epsilon} x^{m+1})^{(n)} (x)| = |\sum_{k=0}^{n} \binom{n}{k} \alpha_{\epsilon}^{(k)}(x) x^{m+1-n+k} (m+1-n+k)!|$$
+$$\leq |\sum_{k=0}^{n} \binom{n}{k} (m+1-n+k)! \epsilon^{m+1-n+k} \dfrac{C_{k}}{\epsilon^{k}}|$$
+$$\leq |\epsilon^{m+1-n} \sum_{k=0}^{n} \binom{n}{k} (m+1-n+k)! C_{k}|$$
+$$\leq |\epsilon^{m+1-n} C_{n}|$$
+Avec $C_{n}$ une constante. 
+
+Ceci implique que $||\alpha_{\epsilon} x^{m+1}||_{m}\leq sup_{x \in I}( \epsilon^{m+1} C_{0}, ..., \epsilon C_{m})= \epsilon sup_{x \in I}( \epsilon^{m} C_{0}, ...,  C_{m})$ et on a donc bien cette quantité qui tend vers 0 lorsque $\epsilon$ tend vers 0. \\
+\end{proof}
+\section{Preuve du théorème}
+Nous pouvons maintenant prouver le théorème de Borel : \\
+
+Soit $\hat{f} = \sum a_{k} x^{k} \in \mathbb{R}[[X]]$. Prenons un $\epsilon_{k}$ tel que $||a_{k}x^{k} \alpha_{\epsilon_{k}}||_{k-1}\leq \frac{1}{2^{k}}$. La série $a_{0} + \sum_{k\geq1}a_{k}x^{k} \alpha_{\epsilon_{k}}$ est normalement convergente par ce qui précède, et en particulier uniformément convergente dans $C^{m}(I)$ pour tout m par le lemme 4, c'est donc une fonction $C^{\infty}(I)$. 
+
+Il reste à montrer que cette fonction admet $\hat{f}$ comme développement en série de Taylor en 0, c'est à dire que $f^{k}(0)=k! a_{k}$.
+
+Dans un voisinage de 0 la fonction $\alpha_{\epsilon_{k}}$ vaut 1, on a donc 
+
+$$
+f^{(n)}(0) = \left\{
+    \begin{array}{ll}
+       k! a_{k} & \mbox{si } n=k\\
+        0 & \mbox{sinon.}
+    \end{array}
+\right.
+$$
+En effet si l'on dérive terme à terme la fonction $f$ on a si $n>k$ : $f^{n}(x)= k! a_{k} x^{n-k} $ or x valant 0 ce terme est nul. Enfin si $k<n$ la dérivée n-ième de $x^{k}$ est nulle.
+
+Ceci conclut la preuve du théorème de Borel.\\
+
+\section{Quasi-analyticité}
+
+%\textcolor{blue}{
+%\begin{itemize}
+%\item $T_0$ est injective sur les fonctions analytiques
+%\item il est très pratique d'avoir $T_0$ injectif.
+%\item on appelle quasi-analytique une famille de fonctions
+%en restriction à laquelle $T_0$ est injective.
+%\item Il existe des exemples de classes quasi-analytiques
+%qui ne sont pas analytique (Denjoy-Carlemann, Gevrey sommables). Sur ces algèbres, $T_0$ n'est pas surjectives.
+%(Il y a même, dans le cas Denjoy-Carlemann une alternative:
+%soit $T_0$ est injective, soit $T_0$ est surjective)
+%\item On se pose la question de l'existence d'une classe quasi-analytique totale (au sens où $T_0$ serait bijective).
+%Le theorème de Borel montre que $T_0$ est surjectif, donc admet un inverse à droite. L'image d'un tel inverse est
+%donc une partie de $C^{\infty}(\mathbb R)$ sur laquelle 
+%$T_0$ est bijective. Par contre, rien n'affirme que cette partie ait la moindre structure. Pire, si on prend comme inverse à droite la ``Borelisation'' on est sûr de n'avoir pas un morphisme. 
+%\item $C^{\infty}(\mathbb R)$ et $\mathbb R[[x]]$ sont des algèbres, même différentielles, même avec composition (en partie), et $T_0$ conserve ces structures. On se demande s'il est possible 
+%de construire une classe quasi-analytique $\mathcal C$, totale, qui soit elle même une algèbre différentielle avec composition, donc telle que $T_0$ restreint à $\mathcal C$ soit un isomorphisme.
+%\end{itemize}}
+
+%\textcolor{blue}{On va étudier un peu la structure de $\mathbb R[[x]]$,
+%et vérifier que $T_0$ est un morphisme pour les opérations décrites ci-dessus.}
+
+\subsection{Structure de $\mathbb R[[x]]$ et $C^{\infty}(\mathbb R)$ et morphisme de Taylor}
+
+%\begin{enumerate}
+%\item Pour algèbre différentielle, l'analogue du lemme 
+%\ref{} est faux. Exemple: Euler.
+%Cependant un résultat annoncé par Ashenbrener, van den Dries et van der Hoeven (dixit O. Le Gal, communication personnelle) affirme qu'il serait possible malgré tout 
+%de réaliser une algèbre différentielle totale.
+%\item En dimension plus grande, le théorème de Borel s'étend, mais un argument qui peut être extrait de \cite{rol:par} montre que certaines séries formelles ne 
+%peuvent pas être le $T_0$ d'une fonction appartenant à une classe QA stable par dérivation.
+%\item La question avec composition reste ouverte.
+%\end{enumerate}
+
+Une conséquence immédiate du théorème de Borel est qu'il existe une application injective que l'on notera $B_{0}$ des séries formelles $\mathbb{R}[[X]]$ dans les fonctions $C^{\infty}$, que l'on construit en appliquant l'algorithme de la preuve de théorème. Néanmoins cette application est peu satisfaisante puisqu'elle ne préserve pas la structure de ces deux $\mathbb{R}$-algèbres. C'est ce que nous allons montrer ci dessous. \\
+
+\begin{lem} 
+
+Les fonctions $C^{\infty}$ forment une $\mathbb{R}$-algèbre différentielle. 
+\end{lem}
+\begin{proof}
+Preuve : C'est immédiat à partir des règles de dérivations habituelles.\\
+\end{proof}
+
+\begin{lem}
+ $\mathbb{R}[[X]]$ est une $\mathbb{R}$-algèbre différentielle. 
+\end{lem}
+\begin{proof}
+Preuve : La multiplication par les scalaires ainsi que la somme terme à terme sont triviales. Le produit de Cauchy de deux séries formelles s'écrit : 
+
+$$\sum_{k\geq 0} a_{k} x^{k} \times \sum_{k\geq 0} b_{k}x^{k}= \sum_{k\geq 0} c_{k}x^{k}$$
+
+Avec $c_{k}= \sum_{i=0}^{k}a_{i}b_{k-i}$ et ceci est bien une série formelle.
+La dérivation est la dérivation terme à terme : 
+$$D\left(\sum_{k\geq 0} a_{k}X^{k}\right)= \sum_{k\geq 1} k a_{k}X^{k-1}$$
+Ce qui reste bien une série formelle. Soit $A,B$ deux séries formelles on a : 
+
+$$D(A+B) = D\left(\sum_{k\geq 0} (a_{k}+b_{k}) X^{k}\right)=\sum_{k\geq 1} k(a_{k}+b_{k}) X^{k-1}$$
+$$=\sum_{k\geq 1} ka_{k} X^{k} +\sum_{k\geq 1} b_{k} X^{k}=D(A)+D(B)$$
+et de plus : 
+
+$$D(A\times B) = D\left(\sum_{k\geq 0} \left(\sum_{i=0}^{k}a_{i}b_{k-i} \right) X^{k}\right)= \sum_{k\geq 1} k \left(\sum_{i=0}^{k} a_{i}b_{k-i}\right) X^{k-1}$$
+$$= D(A)B+D(B)A$$
+\end{proof}
+Montrons maintenant que $B_{0}$ n'est pas un morphisme. En effet, prenons $\hat{f}$, $\hat{g}$ deux séries formelles et notons $f=B_{0}(\hat{f})$, $g=B_{0}(\hat{g})$ et comparons $B_{0}(\hat{f} + \hat{g})$ et $ B_{0}(\hat{f}) + B_{0}(\hat{g})$. Si l'on reprend les fonctions $\alpha_{\epsilon_{k}}(x)$ comme défini dans la preuve du théorème de Borel en les notant respectivement $\alpha_{\epsilon_{f_{k}}}(x)$, $\alpha_{\epsilon_{g_{k}}}(x)$, $\alpha_{\epsilon_{(f+g)_{k}}}(x)$  pour f, g et (f+g), il ne peut pas y avoir d'égalité entre $\epsilon_{(f+g)_{k}}$ et $\epsilon_{f_{k}} , \epsilon_{g_{k}}$, et donc en ces points les fonctions n'étant pas analytique,  de ce fait $ B_{0}(\hat{f}) + B_{0}(\hat{g})$ n'est pas analytique en chacun des $\epsilon_{f_{k}} , \epsilon_{g_{k}}$ ce qui n'est pas le cas de $B_{0}(\hat{f} + \hat{g})$ . \\
+
+L'objectif de la seconde partie est de construire un isomorphisme entre une sous algèbre de $C^{\infty}$ et $\mathbb{R}[[X]]$. Pour ce faire nous allons étudier l'application suivante : 
+
+$$T_{0} : C^{\infty} \mapsto \mathbb{R}[[X]]$$
+$$f \longmapsto \sum_{k=0}^{\infty} \dfrac{f^{k}(0)}{k!}x^{k}$$
+
+C'est à dire l'application qui, à une fonction associe son développement en série de Taylor. Le théorème de Borel nous indique immédiatement que cette application est surjective. Néanmoins elle n'est pas injective car il existe par exemple des fonctions dites plates et qui sont des fonctions non nulles qui s'annulent en zéro et dont toutes les dérivées s'annulent également en 0 ce qui implique que leurs développements en série de Taylor est identiquement nul.
+
+Un exemple classique est le suivant : Considérons la fonction $f$ définie par : 
+
+$$
+f(x) = \left\{
+    \begin{array}{ll}
+       0 & \mbox{si } x\leq 0\\
+        e^{-\frac{1}{x}} & \mbox{si } x>0
+    \end{array}
+\right.
+$$
+La fonction $f$ est $C^{\infty}$, en effet elle est continue en 0 puisque $-\frac{1}{x}$ tend vers $-\infty$ en 0. Pour les dérivées ont utilise le lemme 2 par récurrence. Il reste à montrer que $\forall n$ on a $f^{(n)}(0)=0$. 
+
+On procède à nouveau par récurrence, en prouvant que pour $x>0$ : $f^{(n)}(x)= \dfrac{P_{n}(x)}{x^{2n}}$ avec $P_{n}(x)$ un polynôme non nul en 0. Pour $n=0$ c'est clair avec $P_{n}=1$ sinon on suppose la propriété vraie au rang n. On a au rang n+1 par simple application des règles de dérivations : 
+
+$$f^{(n+1)}(x)=e^{-\frac{1}{x}}\dfrac{P_{n}(x)+x^{2}P'_{n}(x)-2nxP_{n}(x)}{x^{2n+2}}$$
+
+et $P_{n+1}(x)= P_{n}(x)+x^{2}P'_{n}(x)-2nxP_{n}(x)$ est bien non nul en 0 par hypothèse de récurrence. Ceci implique lorsque x tend vers 0 par le théorème de croissance comparée que $f^{(n)}(0)=0$. \\
+
+Nous cherchons à construire un isomorphisme. Pour cela il faut donc déjà vérifier que $T_{0}$ est bien un morphisme de $\mathbb{R}$-algèbre : 
+
+Preuve : Soit $f$, $g$, deux fonctions lisses et $\lambda$ un réel. 
+
+$$T_{0}(\lambda f + g)= \sum_{k=0}^{\infty} \dfrac{(\lambda f+g)(0)^{(n)}}{k!} x^{k} =\lambda \sum_{k=0}^{\infty} \dfrac{ f(0)^{(n)}}{k!}x^{k} + \sum_{k=0}^{\infty} \dfrac{g(0)^{(n)}}{k!}x^{k}= \lambda T_{0}(f)+ T_{0}(g)$$
+Car la dérivation est linéaire. De plus : 
+
+$$ T_{0}(fg)= \sum_{k=0}^{\infty} \dfrac{(fg)^{(n)}(0)}{k!}x^{k}= \sum_{k=0}^{\infty} \dfrac{(\sum_{i=0}^{k} \binom{k}{i}f^{(i)}g^{(k-i)})(0)}{k!}x^{k}= T_{0}(f)\times T_{0}(g)$$
+Ici ${}\times $ désigne bien le produit de Cauchy sur les séries formelles. 
+
+Enfin pour la dérivation : 
+
+$$T_{0}(f')= \sum_{k=0}^{\infty} \dfrac{ f'(0)^{(n)}}{k!}x^{k}=\sum_{k=0}^{\infty} \dfrac{ f(0)^{(n)}}{(k-1)!}x^{k-1}=D(T_{0}(f))$$
+Ce morphisme établit, faisons une digression afin d'étudier certaines propriétés des série formelles (et en déduire ces mêmes propriétés pour les fonctions $C^{\infty}$). Nous allons notamment nous demander à quelles conditions nous pouvons inverser une série, extraire une racine n-ième pour le produit ainsi que la composition. \\
+
+\textbf{Inversion pour le produit : } Soit $A=\sum_{k\geq0} a_{k} x^{k}$ une série formelle, on cherche donc une série formelle $A^{-1}=\sum_{k\geq0} b_{k} x^{k}$ et tel que $ \sum_{k\geq0} a_{k} x^{k} \times \sum_{k\geq0} b_{k} x^{k} = 1$. Ceci est équivalent à $a_{0}b_{0}=1$ et $\forall n \in \mathbb{N}^{\ast}$, $\sum_{i=0}^{n} a_{i}b_{n-i}=0$. On a donc pour A inversible que $a_{0}\neq 0$. Réciproquement si $a_{0} \neq 0$ on a le système triangulaire suivant : 
+
+$$ \left\{
+	\begin{array}{ll}
+	a_{0}b_{0} =1 \\
+	a_{1}b_{0}+a_{0}b_{1}=0\\
+	a_{2}b_{0}+a_{1}b_{1}+a_{0}b_{2}=0\\
+	...\\
+	a_{n}c_{0}+a_{n-1}b_{1}+...+a_{0}b_{n}=0\\
+	...
+	\end{array}
+\right.
+$$
+Qui possède bien une unique solution puisque $a_{0}\neq0$. Ceci implique également qu'une fonction $C^{\infty}$ s'inverse si et seulement si elle ne s'annule pas en zéro.   \\ 
+
+\textbf{Racine n-ième pour le produit :} Soit $A=\sum_{k\geq0} c_{k} x^{k}$, on cherche une série formelle $B$ tel que $B^{n}=A$. Pour cela on va prouver le lemme suivant : 
+
+\begin{lem} \rm 
+Soit $B=\sum_{n\in \mathbb{N}} b_{n}X^{n} \in 1+X\mathbb{R}[[X]]$, et $n\in \mathbb{N}^{\ast}$, alors $B^{n}=\sum_{k\in \mathbb{N}} c_{n,k}X^{k} \in  1+X\mathbb{R}[[X]]$ avec $c_{n,1}=nb_{1}$ et pour tout $k \geq 2$ on a $c_{n,k}= nb_{k} + f_{n,k}(b1,...,b_{k-1})$  et $f_{n,k}$ est un polynôme en $k-1$ variables. 
+\end{lem}
+
+\begin{proof}
+
+On raisonne par récurrence sur $n \in \mathbb{N}^{\ast}. $
+
+L'initialisation est triviale, en effet $B$ est bien dans l'ensemble considéré et $f_{1,k}$ est la fonction polynôme nulle. Supposons maintenant la propriété vrai au rang $n$, et considérons $B^{n+1}$. 
+
+La série formelle $B^{n+1}= \sum_{k\in \mathbb{N}} c_{n+1,k}X^{k}$ est dans $1+X\mathbb{R}[[X]]$ car $c_{n+1,0}=(B^{n+1})_{0}=(B^{n}B)_{0}=c_{n,0}b_{0}=1$ puisque $B$ et $B^{n}$ sont dans $ 1+X\mathbb{R}[[X]]$ par hypothèse de récurrence. 
+
+De plus on a $c_{n+1,1}=c_{n,0}b_{1}+c_{n,1}b_{0}=b_{1}+c_{n,1}=b_{1}+nb_{1}=(n+1)b_{1}$ par hypothèse de récurrence. 
+
+On a également, pour $k\leq $, $c_{n+1,k}=(B^{n+1})_{k}=(B^{n}B)_{k}=\sum_{j=0}^{k} c_{n,j}b_{k-j}=c_{n,0}b_{k}+c_{n,k}b_{0}+\sum_{j=1}^{k-1}c_{n,j}b_{k-j}$. Or, $b_{0}$ et $c_{n,0}$ sont égaux par hypothèse de récurrence encore une fois. Ceci implique :
+
+$$c_{n+1,k}=b_{k}+c_{n,k}+\sum_{j=1}^{k-1} c_{n,j}b_{k-j}=b_{k} +nb_{k} + f_{n,k}(b_{1},...,b_{k-1}+ \sum_{j=1}^{k-1}(nb_{j}+f_{b,j}(b_{1},...,b_{j-1}))b_{k-j}$$
+
+Enfin en définissant la fonction polynôme $f_{n+1,k}$ par $f_{n+1,k}(x_{1},...,x_{k-1})=f_{n,k}(x_{1},...,x_{k-1})+\sum_{j=1}^{k-1}(nb_{j} +f_{n,j}(b1,...,b_{j-1}))x_{k-j}$ on obtient bien $c_{n+1,k}=(n+1)b_{k}+f_{n+1,k}(b_{1},...,b_{k-1})$. Ceci conclut la preuve. 
+\end{proof}
+
+On peut donc maintenant, caractériser les racines n-ièmes  : 
+
+\begin{thm}\rm
+
+Soient $A=\sum_{n\in\mathbb{N}} a_{n}X^{n} \in  1+X\mathbb{R}[[X]]$ et $n\in \mathbb{N}$. Alors : $\exists ! B=\sum_{n\in\mathbb{N}} b_{n}X^{n} \in  1+X\mathbb{R}[[X]]$ et tel que $B^{n}=A$. 
+
+\end{thm}
+
+\begin{proof}
+D'après le lemme précédent, si $B=\sum_{n\in\mathbb{N}} b_{n}X^{n}\in  1+X\mathbb{R}[[X]]$ vérifie $B^{n}=A$ on a : 
+
+$$ \left\{
+	\begin{array}{ll}
+	nb_{1}=a_{1} \\
+	nb_{2}+f_{2,n}(b_{1}=a_{2}\\
+	...\\
+	nb_{k}+f_{n,k}(b_{1},...,b_{k-1})=a_{k}
+	\end{array}
+\right.
+$$
+
+Comme $n\neq0$, ce système possède bien une unique solution. 
+\end{proof}
+
+Pour pouvoir extraire une racine n-ème d'une série $A$ il faut et il suffit donc que $n|val(A)$, en effet si c'est le cas on peut la diviser par $X^{n}$ et se rapporter aux conditions d'application du théorème 9. \\
+
+
+\textbf{Inverse pour la composition : } Avant toutes choses il faut définir de façon rigoureuse la composition, ce qui suppose les quelques définitions et lemmes suivants : 
+
+\begin{defn}[valuation]
+Soit $S\in \mathbb{R}[[X]]$. On peut définir une valuation sur $\mathbb{R}[[X]]$ : on note $val(S)$ la borne inférieure de l'ensemble $\{n\in \mathbb{N},S_{n}\neq 0\}$ lorsqu'elle existe. Dans le cas contraire on pose $val(0)=+\infty$. On appelle cette valuation l'ordre d'une série formelle. 
+
+\end{defn}
+\begin{prop}[Propriété]
+Pour tout $(a,b)\in (\mathbb{R}[[X]])^{2}$
+\begin{itemize}
+\item $val(a+b)\geq min(val(a),val(b))$
+\item $val(ab)=val(a)+val(b)$
+\end{itemize}
+\end{prop}
+
+\begin{proof}
+Soit $(a,b) \in (\mathbb{R}[[X]])^{2}$. 
+
+1) $ a+ b =\sum_{n=0}^{\infty}(a_{n}+b_{n})X^{n}$. Si $n<min(val(a),val(b))$ alors $a_{n}=b_{n}=0$ donc $a_{n}+b_{n}=0$. Ceci implique que $inf(\{n\in \mathbb{N}; a_{n}+b_{n} \neq 0\}) \geq min(val(a), val(b))$. D'où $val(a+b) \geq min(val(a),val(b))$. \\
+
+2) On rappelle que $ab=\sum_{n=0}^{\infty} \left(\sum_{k=0}^{n} a_{k}b_{n-k} \right)X^{n}$. 
+
+En utilisant la définition de la valuation, ceci est équivalent à : 
+
+$inf(\{n\in\mathbb{N}; a_{0}b_{n}+a_{1}b_{n-1}+...+a_{n}b_{0}\neq 0\})=inf(\{k\in\mathbb{N}; a_{k} \neq 0\})+inf(\{k\in\mathbb{N}; b_{k} \neq 0\})$. \\
+
+\textbf{• } Soit $n\in \mathbb{N}$ tel que $a_{0}b_{n}+a_{1}b_{n-1}+...+a_{n}b_{0}\neq 0$. Alors il existe $(i,j)\in \mathbb{N}^{2}$ tel que $i+j=n$ et $a_{i}b_{j} \neq 0$, d'où $a_{i},b_{j}\neq 0$. Ceci donne $i \geq inf(\{k\in\mathbb{N}; a_{k} \neq 0\})$ et $j \geq inf(\{k\in\mathbb{N}; b_{k} \neq 0\})$. D'où $val(ab) \geq val(a)+val(b)$. \\
+
+\textbf{• } Soit $n=n_{1}+ n_{2}$ avec $n_{1}= inf(\{k\in\mathbb{N}; a_{k} \neq 0\})$ et $n_{2}=inf(\{k\in\mathbb{N}; b_{k} \neq 0\})$. Considérons le n-ème terme de la série formelle $(ab) $ : 
+
+$(ab)_{n}= a_{0}b_{n_{1}+n_{2}}+ ...+ a_{n_{1}+n_{2}}b_{0}$. Or, pour tout $j<n_{1}$, on a $a_{j}=0$ donc $a_{j}b_{n-j}=0$, de plus pour tout $k<n_{2}$, on a $b_{k}=0$ et donc $a_{n-k}b_{k}=0$. Ainsi, dans $(ab)_{n}$ le seul terme non nul est $a_{n_{1}}b_{n_{2}}$. Ceci donne $n_{1}+n_{2} \in \{n\in \mathbb{N}; a_{0}b_{n}+...+a_{n}b_{0}\}$. Il en découle que $val(ab) \leq val(a) +val(b)$. Ceci conclut la preuve.  
+
+\end{proof}
+
+\begin{defn}[famille formellement sommable] 
+Considérons une suite $(a_{n})_{n\in\mathbb{N}^{\ast}}$ d'éléments de $\mathbb{R}[[X]]$. Appelons $a_{j,k}$ les coefficients de $a_{k}$, de telle sorte que : $a_{k}=\sum_{j=0}^{\infty} a_{j,k}X^{j}$.
+
+La famille $(a_{n})$ est appelée suite formellement sommable si $\forall r \in \mathbb{N}, \exists N_{r} \in \mathbb{N} $ tel que $\forall n \geq N_{r}, a_{0,n}=a_{1,n}=...=a_{r,n}=0.$ Si $(a_{n})$ est sommable, on définit sa somme, notée $\sum a_{j}$, de la façon suivante : $\sum_{j\in \mathbb{N}}^{\ast} a_{j} = \sum_{r=0}^{\infty} s_{r}X^{r}$ où pour tout $r\geq , s_{r}=a_{r,1}+a_{r,2}+...+a_{r,N_{r}}$. $s_{r}$ est donc le coefficient de $X^{r}$ dans la somme finie $a_{1}+...+a_{N_{r}}$.
+\end{defn}
+
+\begin{lem}
+Si $(c_{n})\in \mathbb{R}^{\mathbb{N}}$ et $val(a)\geq 1$ alors $(c_{n}a^{n})_{n\in \mathbb{N}}$ est sommable. 
+
+\end{lem}
+
+\begin{proof}
+Soient $(c_{n}) \in \mathbb{R}^{\mathbb{N}}$ et $ a \in \mathbb{R}[[X]]$ telle que $ val(a)\geq 1$. Notons pour tout $ n\in \mathbb{N}$, $c_{n}a^{n}=\sum_{j=0}^{\infty}a_{j,n}X^{j}$. Remarquons tout d'abord que $val(c_{n}a^{n}) \geq n$. En effet, $val(c_{n}a^{n})\geq val(a^{n})=n \cdot val(a)\geq n$. Soit $r\in \mathbb{N}$. Alors pour tout $n\geq r+1$, $a_{0,n}=a_{1,n}=...=a_{r,n}=0$. Ceci permet de conclure que $(c_{n}a^{n})$ est sommable. 
+\end{proof}
+
+On peut maintenant donner un sens rigoureux à la composition de série formelle. C'est le sens de la définition suivante : 
+
+
+\begin{defn}
+Lorsque $b$ est sans terme constant, la famille $(a_{n}b^{n})_{n \geq 0}$ est sommable pour toute suite $(a_{n})$ de réels. La série formelle $\sum_{n \geq 0} a_{n}b^{n}$, qui est la somme de la famille $(a_{n}b^{n})_{n\geq0}$, est dite obtenue par substitution de $b$ dans la série $a= \sum_{n \geq 0} a_{n}X^{n}$. On pose alors $a\circ b = \sum_{n\geq 0} a_{n}b^{n}$. 
+\end{defn}
+
+La définition est bien cohérente par les lemmes précédents.\\
+
+\begin{lem}
+Soit $a,b\in \mathbb{R}[[X]]$ et tel que l'on puisse les composer. Alors $val(a \circ b)=val(a)\cdot val(b)$. 
+\end{lem}
+
+\begin{proof}
+$val(a \circ b)=val\left(\sum_{k\geq 0} a_{k} b^{k}\right)$. Le premier élément non nul de $b$ est $val(b)$, mais $b$ est élevé à une certaine puissance $n$. Le premier terme non nul de $a$ est $val(a)$ ce qui implique donc bien que le premier terme non nul de la composition est $val(a) \cdot val(b)$. 
+
+
+\end{proof}
+
+On peut maintenant s'intéresser à l'existence d'un inverse pour la composition c'est à dire : Soit $ a = \sum_{k\geq 0} a_{k}X^{k}$ nous cherchons une série formelle $b=\sum_{k\geq0} b_{k}X^{k}$ et tel que $ a \circ b = X $,c'est à dire un inverse gauche, nous nous posons  également la question d'un inverse à droite. Soit le théorème suivant : 
+
+\begin{thm}
+Soit $A\in \mathbb{R}[[X]]$. Les propriétés suivantes sont équivalentes : 
+\begin{itemize}
+\item[1] $val(A)=1$ 
+\item[2] $\exists B \in \mathbb{R}[[X]]$ vérifiant $B(0)=0$ et $A \circ B =X$ 
+\item[3] $\exists C \in \mathbb{R}[[X]]$ vérifiant  $C \circ A =X$ 
+\end{itemize}
+\end{thm}
+
+\begin{proof}
+\begin{itemize}
+\item[2$\Rightarrow$1 :] Si $A \circ B = X $ on a $val(A \circ B ) = val(X) \Rightarrow val(A) \cdot val(B)=1 \Rightarrow val(A) =1$. 3 implique 1 se démontre de la même façon. 
+\item[1$\Rightarrow$2 :] Réciproquement si $A$ est de valuation 1, on va chercher $B= \sum_{n \geq 1} b_{n} X^{n}$ et tel que $A \circ B =X$. Ceci est équivalent à résoudre le système suivant : 
+
+$$ \left\{
+	\begin{array}{ll}
+	a_{1}b_{1}=1 \\
+	a_{1}b_{2}+a_{2}(b_{1})^{2}=0\\
+	...\\
+	a_{1}b_{n}+ P_{n}(a_{2},...a_{n},b_{1},...,b_{n-1})=0
+	\end{array}
+\right.
+$$
+Ces équations permettent de déterminer les $b_{n}$ par récurrence , puisque $P_{n}$ est un polynôme bien déterminé à coefficients entiers non négatifs, linéaire en les $a_{i}$. 
+
+\item[ 2 $\Rightarrow$ 3 :] On va appliquer le point 2 à la série $B$ qui est de valuation 1, soit $A'$ telle que $B \circ A'=X$. Comme $X$ est l'identité pour la composition on a : $A'=X \circ A'=(A\circ B)\circ A'=A\circ(B\circ A')=A\circ X=A$. Finalement on a bien $B\circ A= X$. 
+\end{itemize}
+
+\end{proof}
+
+Il faut noter qu'il existe une formule explicite d'inversion sur la composition des séries formelles, appelée formule de Lagrange, pour plus de détails voir \cite{Lagrange}. \\
+
+\textbf{Racine n-ième pour la composition : }On se donne une série formelle $A$ et on se demande à quelles conditions il existe une série $B$ tel que $\underbrace{B\circ ...\circ B}_{n}=A$. Commençons par chercher une racine carré, i.e $ \sum_{k\geq 0} a_{k}X^{k}= \sum_{k \geq 0} b_{k} B^{n}$ ceci est équivalent au système suivant : 
+
+$$ \left\{
+	\begin{array}{ll}
+	b_{1}^{2}=a_{1} \\
+	b_{2}b_{1}^{2}+b_{1}b_{2}=a_{2}\\
+	...\\
+	\sum_{k\in \mathbb{N},|j|=n}b_{k}b_{j_{1}}b_{j_{2}}...b_{j_{k}}=a_{n}
+	\end{array}
+\right.
+$$
+Avec $|j|=j_{1}+...+j_{k}$ Ce système possède une unique solution si et seulement si $a_{1}=1$ et $a_{2}=...=a_{n}=0$ c'est à dire la série $X$. De la on en déduis que c'est également le cas pour les racines n-ième. 
+
+\subsection{Un espace vectoriel total isomorphe à $\mathbb R[[x]]$}
+Pour pouvoir construire un isomorphisme on ne peut pas simplement construire un sous espace de fonctions $C^{\infty}$. Il y a en effet plusieurs fonctions qui pourraient coïncider sur un voisinage de 0 et qui auraient le même développement de Taylor en 0. Cette considération nous amène à la définition suivante : 
+
+\begin{defn}[germes]
+Soit $f,g \in C^{\infty}(\mathbb{R})$.On note $\sim$ la relation d'équivalence suivante : $f\sim g$ s'il existe un voisinage $U$ de 0 tel que $\forall x\in U f(x)=g(x)$. On note $C_{0}^{\infty}$ l'ensemble quotient $C^{\infty}\setminus\sim$. On l'appelle l'ensemble des germes en 0 de fonction lisse. 
+\end{defn}
+
+\begin{lem}
+$C_{0}^{\infty}$ hérite de la structure de $\mathbb{R}$-algèbre différentielle. 
+
+\end{lem} 
+
+\begin{proof}
+Soit $f,g\in C_{0}^{\infty}$, par définitions toutes les fonctions de ces classes coïncident sur un voisinage de 0, leurs sommes va donc également coïncider sur un voisinage de 0. Le reste des opérations suit le même raisonnement.  
+\end{proof}
+
+\begin{rem}
+Contrairement aux fonctions $C^{\infty}$ pour les germes on a : $C^{\infty}_{0} \neq \bigcap_{i\in \mathbb{N}} C^{i}_{0}$. En effet si l'on prend une suite $f_{n}$ de fonction tel que le n-ième terme est $n$ dérivable sur $[\frac{-1}{n},\frac{1}{n}]$ on a un contre exemple.  
+\end{rem}
+
+\begin{defn}[classe quasi-analytique]
+On appelle classe quasi-analytique un sous ensemble $C$ de$C^{\infty}$, tel que $T_{0}\mid_{C}$ est injectif. 
+\end{defn}
+L'objectif est donc de construire un sous-espace vectoriel quasi analytique total, c'est à dire sur lequel $T_{0}$ est bijectif. Pour cela, considérons les lemmes et définitions suivants qui vont nous permettre de faire une digression sur l'axiome du choix. 
+
+Dans la suite prenons un ensemble $X$ munie de l'ordre $\leq$. 
+
+\begin{defn}
+On dit que $a$ est un élément maximal si $\forall b \in X$ 
+on a $(b \geq a \Rightarrow b=a)$
+\end{defn}
+
+\begin{defn}
+Si $Y$ est une partie de $X$, on dit que $x\in X$ est un majorant de $Y$ si $\forall y \in Y, y\leq x$. 
+\end{defn}
+
+\begin{defn}
+Soit $X$ un ensemble non vide. On dit que $X$ est inductif si toute partie totalement ordonnée de $X$ admet un majorant dans $X$. 
+\end{defn}
+
+\begin{axi}[Axiome du choix]
+Soit $X$ un ensemble non vide d'ensembles non vides. Alors il existe une application $ g : X \rightarrow \bigcup_{A\in X} A$ avec $\forall A \in X$, $g(A) \in A$. On appelle une telle fonction, une fonction de choix.  
+\end{axi}
+
+Il faut préciser que l'emploi de l'axiome du choix est controversé (du moins il le fut historiquement \cite{AC}. En effet s'il permet de prouver des théorèmes considérés comme fondamentaux tel notamment l'existence d'une base pour tout espace vectoriel ou bien l'existence d'idéaux maximaux dans les anneaux commutatifs, il permet également de prouver des théorèmes qui heurtent violemment l'intuition comme le théorème de Banach-Tarski. Il est plus accepté depuis que Cohen a prouvé (suite à des travaux antérieurs de Gödel) que ZFC est cohérent si et seulement si ZF l'est \cite{AC}. 
+\begin{thm}[Lemme de Zorn]
+Tout ensemble inductif possède un élément maximal. 
+\end{thm}
+
+Il se trouve que le lemme de Zorn est équivalent à l'axiome du choix. Pour cela prenons les définitions suivantes.
+
+\begin{defn}[Segment]
+Soient $S$ et $A$ deux parties de $X$ . On dit que $S$ est un segment de $A$ si et seulement si 
+
+\begin{itemize}
+\item $S\subset A$
+\item $\forall (x,y) \in A \times S, (x\leq y \Rightarrow x\in S)$.
+\end{itemize}
+\end{defn}
+
+
+
+\begin{defn}
+$B \subset X$ est un bon ensemble si et seulement si : 
+\begin{itemize}
+\item $B$ est totalement ordonné
+\item Pour tout segment $S$ de $B$, si $S\neq B$ alors $S$ a des majorants stricts dans $B$ et $m(S)$(définit plus bas) est le plus petit majorant strict de $S$ dans $B$. 
+\end{itemize}
+
+\end{defn}
+
+\begin{proof}[Zorn $\sim$ Axiome du choix]
+L'axiome du choix implique le lemme de Zorn : Soit $(X,\leq )$ un ensemble inductif. On pose $E=\{A \subset X$, $A$ a au moins un majorant strict $\}$. $P(X)\setminus\emptyset$ est un ensemble non vide de parties non vides. L'axiome du choix garantit donc l'existence d'une fonction de choix : 
+$$
+c : \left\|
+    \begin{array}{ll}
+       P(X)\setminus\emptyset \rightarrow X. \\
+        A\mapsto c(A) \in A
+    \end{array}
+\right.
+$$
+Pour $A\in E$ on note $m(A)=c(\{$majorant de $A\})$. 
+
+Posons $U = \bigcup_{B \mbox{ bon ensemble} }B$. \\
+
+Supposons (nous le montrons dans les paragraphes suivants) que $U$ est un bon ensemble. 
+\begin{itemize}
+\item $U$ est totalement ordonné (car c'est un bon ensemble), il admet donc un majorant puisque $U\subset X$ est inductif.
+\item Si tout les majorants sont dans $U$ alors il n' y en a qu'un puisque $U$ est totalement ordonné, notons le $m$. Si $n\in X$ et $n<m$ alors n est un majorant strict de $U$ ce qui est absurde car $n \notin U$, donc $m$ est bien un élément maximal de$X$. 
+\item Sinon $U$ a au moins un majorant strict $m \in X\setminus U$. Mais alors $U \cup {m}$ est un bon ensemble qui contient strictement $U $ ce qui est absurde puisque $U$ est maximal. 
+
+Donc $X$ admet un élément maximal, ce qui démontre le lemme de Zorn. 
+\end{itemize}
+
+
+\begin{lem}
+Soient $A$ et $B$ deux bons ensembles de $X$. Alors $A$ est un segment de $B$ ou l'inverse. 
+\end{lem}
+
+\begin{proof}
+On suppose $A$ et $B$ non vides. On a alors $m(\varnothing) \in A\cap B $ et donc $A\cap B \neq \varnothing$ : soit $ a \in A \cap B$. On note $I_{a,A}=\{x\in A; x<a\}$ et $I_{a,B}=\{x\in B; x<a\}$ 
+
+$I_{a,A}$ est un segment de $A$ : en effet, il est inclus dans $A$ et si pour $x \in A $ et $A \ni y \leq x$ alors $ y\leq x < a $ donc $y\in I_{a,A}$. On procède de la même façon pour $I_{a,B}$.
+
+On pose $C=\{a \in A \cap B; I_{a,A}=I_{a,B}$. On montre que $C$ est un segment de $A$. Soit $x \in C, y\in A, y\leq x$. On a deux cas : si $x=y$ alors comme $x\in C$ on a $y\in C$. Sinon on procède en deux étape : 
+
+\begin{itemize}
+\item[1] On a alors $y<x$ : donc $y\in I_{x,A}=I_{x,B}$ car se sont des segments et donc $y\in B $ et enfin $y \in A \cap B$. 
+\item[2] Si $z \in I_{y,A}$ on a $z<y<x $ donc $z<x$ et donc $z \in I_{x,A}=I_{x,B}$. On a donc $z\in B $ et $z<y$ donc $z\in I_{y,B}$. En conséquence $y\in C$. 
+\end{itemize} 
+Ceci nous indique que $C$ est un segment de $A$. De même on montre que $C$ est un segment de $B$. 
+
+On suppose que $C\neq A $ et $C\neq B$. Comme $A$ est un bon ensemble, $m(C) \in A$ et c'est le plus petit majorant strict de $C$ dans $A$. On fait de même avec $B$. Ceci donne que $I_{m(C),A}=I_{m(C),B}$ et donc $m(C) \in C$ ce qui est absurde. Et donc $C=A$ ou $C=B $ et comme C est un segment de $ A\cap B $ on en déduit donc que $A$ est un segment de $B$ ou bien l'inverse. 
+\end{proof}
+
+\begin{prop}
+U est totalement ordonné
+\end{prop}
+
+\begin{proof}
+Soit $ x,y\in U$. Par définition de $U$, il existe $B_{x}$ et $B_{y}$ des bons ensembles, tels que $x \in B_{x}$ et $y\in B_{y}$. D'après ce qui précède $B_{x}$ est un segment de $B_{y}$ ou réciproquement. Donc $x,y \in B_{x}$ ou $x,y \in B_{y}$ comme $B_{x}$ et $B_{y}$ sont de bons ensembles ils sont totalement ordonnés et donc $U$ l'est également.  
+\end{proof}
+
+\begin{prop}
+Les bons ensembles de $U$ sont des segments
+\end{prop}
+
+\begin{proof}
+Soit $A$ un bon ensemble de $U$. Soit $x\in A$, $y\in U$ avec $y\leq x$. Par définition de $U$, il existe un bon ensemble $ y \in B$. 
+
+D'après ce qui précède on a deux cas : 
+\begin{itemize}
+\item si $A$ est un segment de $B$, alors $A$ est un segment et $y\leq x$ donc $y\in A$
+
+\item sinon si $B$ est un segment de $A$ alors $y\in A$. 
+\end{itemize}
+ On conclut donc que $A $ est un segment de $U$.
+\end{proof}
+
+\begin{prop}
+$U $ est un bon ensemble
+\end{prop}
+
+\begin{proof}
+On a démontré ci-dessus que $U$ est bien ordonné. Soit $S$ un segment de $U$, $S \neq U$, et $z\in U/S$. 
+
+D'après la définition de $U$, il existe un bon ensemble $A$, tel que $ z \in A$. Par définition d'un segment, $z$ est un majorant strict de $S$, $S$ a en conséquence des majorants stricts. Il reste à montrer que $m(S)$ est le plus petit majorant strict de $S $ dans $U$. 
+
+\begin{itemize}
+\item[1] Soit $x\in S$, $y \in A $, $y\leq x$. $A\subset U$ donc $y \in U $ et comme $S$ est un segment de $U$ on a $y \in S$. 
+\item[2] De plus, $U\supset S \ni x <z \in A$. A est un bon ensemble, c'est donc un segment de $U$ : donc $x \in A$. Donc $S\subset A$.  
+\end{itemize}
+De ce qui précède on déduit que $S$ est un segment de $A$. On a $A \ni z \in U\setminus S$ donc on a $S \neq A$. $A$ est un bon ensemble , $S$ est un segment de $A$ différent de $A$ donc $m(S)$ existe et $m(S) \in A \subset U$. Soit $y$ un majorant strict de $S$ dans $U$. Si $y<m(S)$, alors $y \in A$  ce qui est impossible puisque $m(S)$ est le plus petit majorant strict de $S$ dans $A$. Donc $y\geq m(S)$ et $m(S$ est le plus petit majorant strict de $S$ dans $U$. Donc $U$ est bon ensemble. \\
+\end{proof}
+Le lemme de Zorn implique l'axiome du choix : 
+
+Soit $C$ un ensemble non vide d'ensemble non vide. On pose : 
+
+$$X= \{(A,c); A\subset C  \mbox{et}  c : A \rightarrow \bigcup_{B\in C} B , \forall a \in A , c(a) \in a \}$$
+et on va montrer que $X$ est inductif, pour un certain ordre que l'on va expliciter. 
+
+\begin{itemize}
+\item $C\neq \varnothing $ donc $\exists a \in C $; on a de plus $a\neq \varnothing$ donc $\exists x \in a$. On pose $A=\{a\}$ et 
+$$
+c : \left\|
+    \begin{array}{ll}
+       A\rightarrow \bigcup_{B\in C} B  \\
+       a\mapsto x
+    \end{array}
+\right.
+$$
+On a $(A,c) \in X$ donc $X\neq \varnothing$. 
+
+\item Ordre sur $X$ : $[(A_{1},c_{1}) \leq (A_{2},c_{2})]$ si et seulement si $[A_{1}\subset A_{2}$ et $ c|_{A_{1}} =c_{1}]$. Soit $Y$ une partie totalement ordonnée de $X$. On pose $B= \bigcup_{A|\exists c, (A,c) \in Y}A$ et $d : B \rightarrow \bigcup_{A \in C}A$ définie ainsi : si $a \in B$ alors $\exists (A,c)\in Y , a \in A$; on pose alors $d(a) = c(a) $. Cette définition est indépendante de l'ensemble $A$ choisit car $Y$ est totalement ordonné et la définition de l'ordre nous garanti la définition de $d$. Finalement $(B,d)$ majore $Y$. 
+
+\end{itemize}
+$X$ est donc inductif, et d'après le lemme de Zorn, $X$ admet un élément maximal $(A,c)$. Si $A=C$, alors $c$ est une fonction de choix sur $C$. Supposons $A \neq C$ : alors $\exists \tilde{a}\in C/A. \tilde{a}\neq \varnothing $ donc $\exists x \in \tilde{a}$. 
+
+On pose $\tilde{A}= A\cup \{\tilde{a}\}$ puis 
+
+$$ \tilde{c} : \tilde{A}\rightarrow \bigcup_{B\in C} B $$ 
+
+avec 
+$$
+\tilde{c}(a) : \left\|
+    \begin{array}{ll}
+       c(a) & \mbox{si} a\in A  \\
+       x & \mbox{si} a = \tilde{a}
+    \end{array}
+\right.
+$$. 
+
+$\tilde{c} $ est un prolongement strict de $c$ : c'est une contradiction avec la maximalité de $(A,c)$. 
+
+Ceci conclut la preuve. 
+\end{proof} 
+
+Nous pouvons enfin passer à la construction proprement dite. Pour cela définissons l'ensemble $E$ comme l'ensemble des sous-espaces vectoriels de classe quasi-analytique de l'espace des germes de fonctions lisses. Nous allons montrer que $(E,\subset) $ est inductif . Considérons un sous-ensemble $P$ de $E$ totalement ordonné. Posons : 
+
+$$M = \bigcup_{X \in P} X$$ 
+
+Alors $M$ est un espace vectoriel, en effet il contient \textbf{0}, de plus : soit $ \lambda \in \mathbb{R}$, et $ u,v \in M $,  $\lambda u + v \in M $ puisque celui ci est composé d'espaces vectoriels. En outre, $ \forall x \in P, x \subset M $, en conséquence $M$ est un majorant. 
+
+Ceci implique que $E$ est bien inductif et donc par Zorn il possède un élément maximal. Notons $\mathbb{M} $ ce sous espace  vectoriel. Il reste à démontrer que $ T_{0}(\mathbb{M})= \mathbb{R}[[X]]$. On raisonne par l'absurde. Supposons qu'il existe une série formelle $\hat{f}$ qui n'a pas d'antécédent par $T_{0}$ restreint à $\mathbb{M}$. Notons $f\in C^{\infty}$ tel que $T_{0}(f)=\hat{f}$. Enfin notons $ \mathbb{A}= <\mathbb{M},f>$. Un élément de $ \mathbb{A}$ peut s'écrire sous la forme $F=g +\lambda f$ avec $g$ une fonction de $\mathbb{M}$. Montrons que  $ \mathbb{A}$  est quasi-analytique.  
+
+$$T_{0}(F) = 0$$
+$$ \Leftrightarrow T_{0}(g + \lambda f)= 0$$
+$$\Leftrightarrow T_{0}(g ) + \lambda T_{0}(f)=0$$
+$$\Leftrightarrow T_{0}(g)=-\lambda T_{0}(f)$$
+Deux cas possible : soit $\lambda \neq 0$, dans ce cas on a $ T_{0}(\frac{-1}{\lambda} g)= T_{0}(f)$ or ceci n'est pas possible puisque sinon $\hat{f}$ aurait un antécédent dans $\mathbb{M}$. Sinon $\lambda =0$, dans ce cas on $T_{0}( F) = T_{0}(g) $ or $g\in \mathbb{M}$ est quasi analytique ceci implique que  $ \mathbb{A} $ est quasi analytique mais ce n'est pas possible puisque ceci contredirait la maximalité de $\mathbb{M}$. On en déduit donc au final que l'on a trouvé un isomorphisme d'espace vectoriel entre $\mathbb{M}$ et $\mathbb{R}[[X]]$. 
+
+
+\subsection{Une algèbre totale isomorphe à $\mathbb R[[x]]$}
+Dans cette dernière section, nous allons montrer que $T_{0}$ est bien un morphisme d'algèbre. Pour cela il faut rappeler le théorème suivant : 
+
+\begin{thm}[Fonctions implicites, cas n=2]
+Soit $ f : E \subset \mathbb{R}^{2} \rightarrow \mathbb{R}$, $E$ un ouvert non vide, de classe $C^{1}$, $\Sigma = \{(x,y)\in E : f(x,y)=0\}$ et $\textbf{z}_{0}=(x_{0},y_{0}) \in \Sigma $ tel que $\frac{\partial f}{\partial y} \neq 0$.
+
+ Alors il existe un voisinage $U= ]x_{0}-\delta ; x_{0}+\delta[$ de $x_{0}$, un ouvert $V\subset E $ contenant  $\textbf{z}_{0}$ et une unique fonction $\phi : U \rightarrow \mathbb{R}$ de classe $C^{1}$ tel que : 
+
+\begin{itemize}
+\item $y_{0} = \phi(x_{0})$;
+\item $(x, \phi(x))\in V $ et $ f(x,\phi(x))=0$, $\forall x \in U$;
+\item Pour tout $x \in U $,  $\frac{\partial f}{\partial y}(x, \phi(x))\neq 0$ et : 
+
+$$\phi'(x)=\dfrac{ \frac{\partial f}{\partial y}(x,\phi(x)}{ \frac{\partial f}{\partial y}(x,\phi(x)} $$
+\end{itemize}
+De plus si $f \in C^{k}(E)$ alors $\phi \in C ^{k}(U)$
+\end{thm}
+
+\begin{proof} 
+Supposons $\frac{\partial f}{\partial y}(x_{0},y_{0})>0$ ( le cas négatif est identique). Puisque $\frac{\partial f}{\partial y}$ est continue sur $E$, il existe $\delta 1, \delta 2 > 0$ tels que, pour tout $(x,y) \in W=[x_{0}-\delta 1, x_{0}+ \delta 1] \times [y_{0}-\delta 2, y_{0}+ \delta 2]$ on a $(x,y) \in E$ et $\frac{\partial f}{\partial y } (x,y) > 0$. 
+
+Pour tout $x \in [x_{0}-\delta 1, x_{0}+ \delta 1]$ la fonction $y\mapsto g_{x}(y)=f(x,y)$ est strictement croissante dans l'intervalle $[y_{0}-\delta 2, y_{0}+ \delta 2]$ car $g'_{x}(y) >0$ par hypothèse. En particulier : 
+
+$$g_{x_{0}}(y_{0}-\delta 2)< g_{x_{0}}(y_{0}) =f(x_{0}, y_{0})=0<g_{x_{0}}(y_{0}+\delta 2)$$
+Puisque $f$ est continue, il existe $0<\delta < \delta 1$ tel que $g_{x}(y_{0}-\delta 2)<0$ et $g_{x}(y_{0}+\delta 2)>0$ , $\forall x \in U=]x_{0}-\delta, x_{0}+\delta[$. 
+
+Pour $x \in U $, $g_{x}(y)$ est continue et strictement croissante sur l'intervalle $[y_{0}-\delta 2, y_{0}+ \delta 2]$, et donc il existe un unique $y= \phi(x) \in ]y_{0}-\delta 2, y_{0}+ \delta 2[$, tel que $ g_{x}(y)=0$. Cette procédure permet de définir de façon unique une fonction $\phi : U \rightarrow \mathbb{R} $ telle que $\phi(x_{0})= y_{0}$ et $ f(x,\phi(x)=0$ pour tout $x\in u$. \\
+
+Continuité de $\phi$. Soit $ \tilde{x}
+\in U $ et $\tilde{y} = \phi(\tilde{x })$. Pour tout $\epsilon \in ]0, \delta 2-|\tilde{y}-y_{0}|]$, considérons $W_{\epsilon}=[x_{0}-\delta 1, x_{0}+ \delta 1] \times [\tilde{y} -\epsilon, \tilde{y}+ \epsilon]$. Puisque $W_{\epsilon }\subset W$ on a $\frac{\partial f}{\partial y} > 0 $ sur $W_{\epsilon}$. En raisonnant comme auparavant, mais sur $W_{\epsilon}$ au lieu de $W $, il existe un $\delta_{\epsilon} >0$ et une fonction $\tilde{\phi} : ]\tilde{x}-\delta_{\epsilon},\tilde{x}+\delta_{\epsilon}[\cap U \rightarrow \mathbb{R}$ tel que $\tilde{y}=\tilde{\phi}(\tilde{x})$ et $f(x,\tilde{\phi}(x))=0$, $\forall x \in  ]\tilde{x}-\delta_{\epsilon},\tilde{x}+\delta_{\epsilon}[\cap U$. Par l'unicité de la fonction implicite sur $W$ et le choix de $W_{\epsilon}$, on a $\tilde{\phi}(x)=\phi(x) \in  [\tilde{y} -\epsilon, \tilde{y}+ \epsilon]$, $\forall x \in ]\tilde{x}-\delta_{\epsilon},\tilde{x}+\delta_{\epsilon}[\cap U$. On a donc montré que pour tout $\epsilon >0$ il existe un $\delta_{\epsilon} >0$ tel que $|\phi(x)-\phi(\tilde{x})| \leq \epsilon$ pour tout $ x \in ]\tilde{x}-\delta_{\epsilon},\tilde{x}+\delta_{\epsilon}[\cap U$ ce qui implique la continuité de $\phi$ en tout point $\tilde{x} \in U$. \\
+
+Continuité de $\phi '$. Soient $x_{1} \neq x_{2}$ dans $U$, $y_{1}=\phi(x_{1})$ et $y_{2}=\phi(x_{2})$. Puisque $ f \in C^{1}(E)$ on a 
+
+$$0=f(x_{2},y_{2})-f(x_{2},y_{2})= \dfrac{\partial f}{\partial x}(\xi, \eta)(x_{2}-x_{1}) + \dfrac{\partial f}{\partial y}(\xi, \eta)(y_{2}-y_{1}$$
+Avec $(\xi,\eta)=(x_{1}+\theta (x_{2}-x_{1}),(y_{1}+\theta (y_{2}-y_{1}$ et $\theta \in ]0,1[$. Alors on a : 
+
+$$\dfrac{y_{2}-y_{1}}{x_{2}-x_{1}}=\dfrac{\phi(x_{2}-\phi(x_{1})}{x_{2}-x_{1}}=\dfrac{\frac{-\partial f}{\partial x}(\xi, \eta )}{\frac{\partial f}{\partial y}(\xi ,\eta)}$$
+
+et $\dfrac{\partial f}{\partial y}(\xi, \eta) > 0$ car $(\xi,\eta) \in V \subset W$. Il s'ensuit : 
+
+$$ \phi'(x_{1})= \lim\limits_{x_{2} \to x_{1}} =\dfrac{\phi(x_{2}-\phi(x_{1})}{x_{2}-x_{1}}=\dfrac{\frac{-\partial f}{\partial x}(x_{1}, y_{1})}{\frac{\partial f}{\partial y}(x_{1}, y_{1})}$$
+donc $\phi $ est dérivable en tout point de $U$. La démonstration du fait que $\phi \in C^{k}(U) $ si $f \in C^{k}(E)$ se fait par récurrence sur $k$. 
+\end{proof}
+Ce théorème est central dans la preuve du lemme technique suivant : 
+
+\begin{lem}
+Soit $P(x,y) \in \mathbb{R}[x,y]$ ( respectivement $\textfrak{A}[Y]$ avec $\textfrak{A}[Y]$ quasi analytique), $s \in X \mathbb{R}[[X]]$, et $P(x, s(x))=0$. Alors $\exists f \in C^{\infty}$ telle que $P(x,f(x))=0$ et $T_{0}(f)= s$
+\end{lem}
+
+\begin{proof}
+
+Sans perte de généralité on peut supposer $d^{\circ}_{y}P$ minimal, quitte à substituer $P$ par $\partial_{y}P$ ou bien une dérivée d'ordre supérieur. Ainsi on a $\partial_{y}P(x,s(x))\neq 0$. On souhaite avoir $\partial_{y}P \neq(0,0)$ afin de pouvoir appliquer le théorème des fonctions implicites. Pour la suite des calculs on pose $s=j^{N}_{s}+ x^{N+1} (a_{N+1}+ s^{\veebar}_{N+1})$. On peut remarquer que $s^{\veebar}_{N+1}\in X\mathbb{R}[[X]]$. Posons $y=j^{N}_{s}+ x^{N+1}(a_{N+1}+Z)$. On a $P(x,y)=P(x,j^{N}_{s}+ x^{N+1}(a_{N+1}+z)=Q(x,z). $ 
+
+Calculons $Q(x,z)$. 
+
+$$Q(x,z)=P(x, j^{N}_{s}+ x^{N+1}(a_{N+1}+z))=P(x,s+X^{N+1}(z-s^{\veebar}_{N+1})$$
+$$=P(x,s)+ \dfrac{\partial P}{\partial y}(x,s)\cdot x^{N+1}(z-s^{\veebar}_{N+1}) + O((x^{n+1}(z-s^{\veebar}_{N+1}))^{2})$$
+$$=0+x^{r}\cdot u(x) x^{N+1}(z-s^{\veebar}_{N+1})+ x^{2N+2} O((z-s^{\veebar}_{N+1})^{2})$$
+$$=x^{r+N+1}u(x)(z-s^{\veebar}_{N+1})+x^{2N+2}\cdot \tilde{Q}(x,z)$$
+
+Maintenant si $N+1> r $ alors $Q(x,z) $ est divisible par $x^{r+N+1}$. Ainsi $Q(x,s^{\veebar}_{N+1})=0$ et $\frac{\partial Q}{\partial z}(0,0) \neq 0$. On peut donc appliquer le théorème des fonctions implicites : il nous donne que $\exists ! z(x) \in C^{\infty}$ tel que $Q(x, z(x))=0$. En dérivant on obtient bien que $T_{0}(z(x)=s^{\veebar}(x))$. La fonction $f$ cherchée est alors $j^{N}_{S}+x^{n+1}(a_{n+1}+z(x)$. 
+
+\end{proof}
+
+
+Maintenant suivons la même stratégie de preuve que pour les espaces vectoriels : on considère $A$ l'ensemble de toutes les sous-algèbres analytiques des fonctions $C^{\infty}$. On prend ensuite un sous-ensemble totalement ordonné $P$ de $A$, et enfin $B$ l'union de toutes les sous-algèbres de $P$, que l'on note 
+$$B =\bigcup_{x\in P} x$$ 
+
+C'est encore une sous-algèbre, et $B$ majore $P$, donc $A$ est inductif, et possède par le lemme de Zorn un élément maximal, que l'on va noter \textfrak{A}. Raisonnons par l'absurde : supposons que $T_{0}(\textfrak{A})\neq \mathbb{R}[[X]]$. Il existe donc une série $\hat{f}$ qui n'a pas d'antécédent par $T_{0}$ restreint à \textfrak{A}. 
+
+Si $\exists P \in \textfrak{A} \setminus \{0\} $ tel que $P(x,\hat{f})=0$, alors $\exists Q \in \textfrak{A} \setminus \{0\}$ minimal tel que  $Q(x,\hat{f})=0$. En vertu du lemme 33 $\exists ! f \in C^{\infty}$ tel que $Q(x,f(x))=0$ et $T_{0} (f)= \hat{f}$. Montrons que $\mathbb{A}=<\textfrak{A}, f> = \textfrak{A}[f]$ est quasi-analytique. En effet, si $F\in \textfrak{A}[Y]$ et $\hat{F}(f)=0$ alors $P(x, \hat{f}(x))=0$ or $P= x^{-k} Q R$ et donc $P(f) = f^{-k} Q(f) R(f)$ et $Q(f)$ étant nul, il reste que $P(f)=0$. \\
+
+Si $\forall P \in \textfrak{A}[Y]\setminus \{0\}$, $P(x,\hat{f} \neq 0$ alors seule la fonction nulle annule ce polynôme et donc $\mathbb{A}$ est quasi-analytique. 
+
+On a donc $\mathbb{A} \cong \mathbb{R}[[X]]$ comme isomorphisme d'algèbre. 
+\section{Conclusion}
+Dans ce rapport nous avons étudié un théorème fascinant, qui nous a permis de mieux cerner les concepts de séries formelles et de fonctions $C^{\infty}$. 
+
+Certaines questions restent néanmoins en suspend : 
+
+\begin{itemize}
+\item savoir si il est possible de  construire un isomorphisme d'algèbres différentielles (selon Olivier Legal, une réponse positive pourrait être apportée d' après un résultat annoncé par Ashenbrener, van den Dries et van der Hoeven)
+
+\item  	Existe-t-il un isomorphisme stable par composition ? (question ouverte à notre connaissance).
+\end{itemize}
+Il est donc intéressant de constater qu'un tel théorème datant de plus de 100 ans peut conduire à de nouvelles recherches.
+
+
+\begin{thebibliography}{9}
+
+\bibitem{Borel 1}Borel, Émile. Sur quelques points de la théorie des fonctions. Annales scientifiques de l'École Normale Supérieure, Série 3, Tome 12 (1895), pp. 9-55. doi : 10.24033/asens.406. http://archive.numdam.org/articles/10.24033/asens.406/
+
+\bibitem{Peano} Bensenyei, Adam. Peano's Unnoticed Proof of Borel's Theorem. The American mathematical monthly. vol 121. num 1. janvier 2014. p 69-72. https://abesenyei.web.elte.hu/publications/borel.pdf
+
+\bibitem{Lagrange} https://en.wikipedia.org/wiki/Formal\_power\_series\#The\_Lagrange\_inversion\_formula
+
+\bibitem{AC} https://fr.wikipedia.org/wiki/Axiome\_du\_choix\#
+
+\end{thebibliography} 
+\end{document}
